@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>digital clock</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .text_center {
+        text-align: center;
+        font-weight: 800;
+        color: lightcoral;
+      }
+      /* for the watch */
+      body {
+        height: 100vh;
+      }
+      section {
+        width: 500px;
+        height: 500px;
+        border: 20px solid black;
+        border-radius: 50%;
+        position: relative;
+        margin: auto;
+        margin-top: 10%;
+        display: flex;
+        align-items: center;
+      }
+      .outer {
+        background-color: lightslategray;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 100%;
+        height: 100%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+      }
+      .inner {
+        background-image: radial-gradient(circle, #387989, #6dd5ed);
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 95%;
+        height: 95%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+      }
+      .stack{
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+          background-color: white;
+      }
+
+      /* hands */
+
+      .hour,.minute,.second {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 4px;
+        transform: translate(-50%, -50%);
+        transform: rotate(270deg);
+        transform-origin: left;
+      }
+      .hour{
+        background-color: lightcoral;
+        width: 35%;
+      }
+      .minute{
+        background-color: lightblue;
+        width: 40%;
+      }
+      .second{
+        background-color:white;
+        width: 45%;
+      }
+      .hour::before,.minute::before,.second::before {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-top: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        right: -9px;
+        top: -8px;
+      }
+      .hour::before{
+        border-left: 20px solid lightcoral;
+      }
+      .minute::before{
+        border-left: 20px solid lightblue;
+      }
+      .second::before{
+        border-left: 20px solid white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="text_center">Watch</h1>
+
+    <!-- watch -->
+    <section>
+      <div class="outer">
+        <div class="inner">
+          <span class="hour"></span>
+          <span class="minute"></span>
+          <span class="second"></span>
+          <span class="stack"></span>
+        </div>
+      </div>
+    </section>
+    <script>
+        function time(){
+            const date = new Date();
+            const SecondsHand=document.querySelector('.second');
+            const MinuteHand=document.querySelector('.minute');
+            const HourHand=document.querySelector('.hour');
+            const second = date.getSeconds(); 
+            const secondHand = second/60;
+            const secondRotate = secondHand*360+270 ;
+
+            const minute = date.getMinutes(); 
+            const minuteHand = (secondHand+minute)/60;
+            const minuteRotate = minuteHand*360+270;
+
+            const hour = date.getHours(); 
+            const hourHand = (minuteHand+hour)/12;
+            const hourRotate = hourHand*360+270;
+
+            SecondsHand.style.transform =`rotate(${secondRotate}deg)`;
+            MinuteHand.style.transform =`rotate(${minuteRotate}deg)`;
+            HourHand.style.transform =`rotate(${hourRotate}deg)`;
+
+            console.log('Second: ',secondRotate);
+            console.log('Minute: ',minuteRotate);
+            console.log('Hour: ',hourRotate);
+
+        }
+        setInterval(time,1000)
+    </script>
+  </body>
+</html>
