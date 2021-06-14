@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>X & O</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .ground {
+        text-align: center;
+        padding: 10px;
+      }
+      .ground .back {
+        color: tomato;
+        font-size: large;
+        cursor: pointer;
+      }
+      .playground {
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3, 200px);
+        grid-template-rows: repeat(3, 200px);
+        width: 600px;
+        height: 600px;
+        margin-top: 50px;
+      }
+      .playground > div {
+        border: 1px solid black;
+        border-collapse: collapse;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 60px;
+        font-weight: bold;
+        color: white;
+      }
+      .buttons > button {
+        margin-top: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Tick Tac Toe</h1>
+      <p>Play with me</p>
+    </header>
+    <div class="ground">
+      <div class="playground">
+        <div class="box1"></div>
+        <div class="box2"></div>
+        <div class="box3"></div>
+        <div class="box4"></div>
+        <div class="box5"></div>
+        <div class="box6"></div>
+        <div class="box7"></div>
+        <div class="box8"></div>
+        <div class="box9"></div>
+      </div>
+      <div class="buttons">
+        <button class="back">Back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button class="reset">Reset</button>
+      </div>
+    </div>
+    <script>
+      window.addEventListener("load", () => {
+        let boxes = document.querySelectorAll(".playground div");
+        let back = document.querySelector(".back");
+        let reset = document.querySelector(".reset");
+        let player = 0;
+        let inputIndexes = [];
+        let totalBoxes = 0;
+        let colors = ["lightgreen", "lightcoral"];
+        // step one of adding X and O
+        boxes.forEach((box, index) => {
+          box.addEventListener("click", function () {
+            inputIndexes.push(index);
+            player += 1;
+            // adding 'O' players
+            if (player % 2 !== 0) {
+              if (this.innerHTML == "") {
+                this.innerHTML = "O";
+                this.style.background = colors[0];
+              }
+              // adding 'X' players
+            } else {
+              if (this.innerHTML == "") {
+                this.innerHTML = "X";
+                this.style.background = colors[1];
+              }
+            }
+
+            // no winner
+            if (box.innerHTML !== "") {
+              totalBoxes += 1;
+              if (totalBoxes == 9) {
+                setTimeout(resetDatas(1, 500));
+              }
+            }
+
+            // finding the winner
+            // first column check
+            if (boxes[index].innerHTML !== "") {
+              if (
+                boxes[0].innerHTML == boxes[1].innerHTML &&
+                boxes[0].innerHTML != ""
+              ) {
+                if (boxes[0].innerHTML == boxes[2].innerHTML) {
+                  setTimeout(resetDatas(boxes[0].innerHTML), 500);
+                }
+              }
+              // second column check
+              if (
+                boxes[3].innerHTML == boxes[4].innerHTML &&
+                boxes[3].innerHTML != ""
+              ) {
+                if (boxes[3].innerHTML == boxes[5].innerHTML) {
+                  setTimeout(resetDatas(boxes[3].innerHTML), 500);
+                }
+              }
+              // third column check
+              if (
+                boxes[6].innerHTML == boxes[7].innerHTML &&
+                boxes[6].innerHTML != ""
+              ) {
+                if (boxes[6].innerHTML == boxes[8].innerHTML) {
+                  setTimeout(resetDatas(boxes[6].innerHTML), 500);
+                }
+              }
+              // first row check
+              if (
+                boxes[0].innerHTML == boxes[3].innerHTML &&
+                boxes[0].innerHTML != ""
+              ) {
+                if (boxes[0].innerHTML == boxes[6].innerHTML) {
+                  setTimeout(resetDatas(boxes[0].innerHTML), 500);
+                }
+              }
+              // second row check
+              if (
+                boxes[1].innerHTML == boxes[4].innerHTML &&
+                boxes[1].innerHTML != ""
+              ) {
+                if (boxes[1].innerHTML == boxes[7].innerHTML) {
+                  setTimeout(resetDatas(boxes[1].innerHTML), 500);
+                }
+              }
+              // third row check
+              if (
+                boxes[2].innerHTML == boxes[5].innerHTML &&
+                boxes[2].innerHTML != ""
+              ) {
+                if (boxes[2].innerHTML == boxes[8].innerHTML) {
+                  setTimeout(resetDatas(boxes[2].innerHTML), 500);
+                }
+              }
+              // diagnoal check left to right
+              if (
+                boxes[0].innerHTML == boxes[4].innerHTML &&
+                boxes[0].innerHTML != ""
+              ) {
+                if (boxes[0].innerHTML == boxes[8].innerHTML) {
+                  setTimeout(resetDatas(boxes[0].innerHTML), 500);
+                }
+              }
+              // diagnoal check right to left
+              if (
+                boxes[2].innerHTML == boxes[4].innerHTML &&
+                boxes[2].innerHTML != ""
+              ) {
+                if (boxes[2].innerHTML == boxes[6].innerHTML) {
+                  setTimeout(resetDatas(boxes[2].innerHTML), 500);
+                }
+              }
+            }
+          });
+        });
+
+        // back the track
+        back.addEventListener("click", () => {
+          let lastIndex = inputIndexes.pop();
+          boxes[lastIndex].style.background = "";
+          boxes[lastIndex].innerHTML = "";
+          if (player !== 0) {
+            player -= 1;
+          }
+        });
+
+        // reset the track
+        reset.addEventListener("click", () => {
+          resetDatas(2);
+        });
+
+        // resetting the datas
+        function resetDatas(winner) {
+          if(winner =='O' || winner =='X'){
+          alert("The winner is " + winner);
+        }else if(winner == 1){
+          alert("There are no winners");
+        }else if(winner == 2){
+          alert("Your datas are reseted")
+        }
+          boxes.forEach((box) => {
+            player=0;
+            inputIndexes=[];
+            box.innerHTML = "";
+            totalBoxes=0;
+            box.style.background = "";
+          });
+        }
+        
+      });
+    </script>
+  </body>
+</html>

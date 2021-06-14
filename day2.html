@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .app {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        z-index: -2;
+      }
+      header > h1 {
+        margin-top: 50px;
+        margin-bottom: 30px;
+        text-align: center;
+        font-size: 40px;
+      }
+      header > p {
+        font-size: 20px;
+        text-align: center;
+      }
+
+      .pads {
+        width: 100%;
+        background-color: lightblue;
+        display: flex;
+      }
+
+      .pads > div {
+        flex: 1;
+        width: 100px;
+        height: 300px;
+      }
+
+      .pad1 {
+        background-color: lightcoral;
+      }
+      .pad2 {
+        background-color: lightcyan;
+      }
+      .pad3 {
+        background-color: lightgray;
+      }
+      .pad4 {
+        background-color: lightgreen;
+      }
+      .pad5 {
+        background-color: lightseagreen;
+      }
+      .pad6 {
+        background-color: lightyellow;
+      }
+
+      @keyframes bubble {
+        0% {
+          bottom: 0%;
+          left: 20%;
+        }
+        50% {
+          bottom: 50%;
+          left: 50%;
+        }
+
+        100% {
+          bottom: 0%;
+          left: 80%;
+        }
+      }
+
+      .visual > div {
+        position: absolute;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        bottom: 0%;
+        z-index: -1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>Music Player</h1>
+        <p>Enjoy it</p>
+      </header>
+
+      <!-- audo function -->
+
+      <div class="visual"></div>
+
+      <div class="pads">
+        <div class="pad1">
+          <audio class="audios" src="./audio/bubbles.mp3"></audio>
+        </div>
+        <div class="pad2">
+          <audio class="audios" src="./audio/clay.mp3"></audio>
+        </div>
+        <div class="pad3">
+          <audio class="audios" src="./audio/confetti.mp3"></audio>
+        </div>
+        <div class="pad4">
+          <audio class="audios" src="./audio/glimmer.mp3"></audio>
+        </div>
+        <div class="pad5">
+          <audio class="audios" src="./audio/moon.mp3"></audio>
+        </div>
+        <div class="pad6">
+          <audio class="audios" src="./audio/ufo.mp3"></audio>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.addEventListener("load", () => {
+        const audio = document.querySelectorAll("audio");
+        const pads = document.querySelectorAll(".pads div");
+        let visual = document.querySelector(".visual");
+        const colors = [
+          "lightcoral",
+          "lightcyan",
+          "lightgray",
+          "lightgreen",
+          "lightseagreen",
+          "lightyellow",
+        ];
+        pads.forEach((pad, index) => {
+          pad.addEventListener("click", () => {
+            audio[index].currentTime = 0;
+            audio[index].play();
+            createBubble(index);
+          });
+        });
+
+        const createBubble = (index) => {
+        const bubble = document.createElement("div");
+        visual.appendChild(bubble);
+        bubble.style.background = colors[index];
+        bubble.style.animation = "bubble 1s ease";
+        bubble.addEventListener("animationend", function() {
+          visual.removeChild(this);
+        });
+      };
+      });
+
+      
+    </script>
+  </body>
+</html>
